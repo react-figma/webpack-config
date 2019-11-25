@@ -32,7 +32,7 @@ const baseConfig = {
 
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist') // Compile into a folder called "dist"
+        path: path.resolve(process.cwd(), 'dist') // Compile into a folder called "dist"
     },
 
     plugins: [
