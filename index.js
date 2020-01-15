@@ -28,7 +28,7 @@ const baseConfig = {
     },
 
     // Webpack tries these extensions for you if you omit the extension like "import './file'"
-    resolve: { extensions: ['.tsx', '.ts', '.jsx', '.js'] },
+    resolve: { extensions: ['.figma.tsx', '.figma.ts','.tsx', '.ts', '.jsx', '.js'] },
 
     output: {
         filename: '[name].js',
