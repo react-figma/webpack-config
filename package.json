@@ -1,6 +1,6 @@
 {
   "name": "react-figma-webpack-config",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Webpack config for react-figma projects",
   "main": "index.js",
   "scripts": {
