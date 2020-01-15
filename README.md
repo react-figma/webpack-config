@@ -10,13 +10,13 @@ Webpack config for react-figma projects
 Install it with yarn:
 
 ```
-yarn add react-figma-webpack-config -D
+yarn add react-figma-webpack-config html-webpack-inline-source-plugin html-webpack-plugin svg-inline-loader ts-loader webpack webpack-merge -D
 ```
 
 Or with npm:
 
 ```
-npm i react-figma-webpack-config -D
+npm i react-figma-webpack-config html-webpack-inline-source-plugin html-webpack-plugin svg-inline-loader ts-loader webpack webpack-merge -D
 ```
 
 ## Usage
