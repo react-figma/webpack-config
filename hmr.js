@@ -11,13 +11,16 @@ const baseConfig = {
 
     module: {
         rules: [
+            // Converts TypeScript code to JavaScript
             { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
 
             // Enables including CSS by doing "import './file.css'" in your TypeScript code
             { test: /\.css$/, loader: [{ loader: 'style-loader' }, { loader: 'css-loader' }] },
 
             // Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
-            { test: /\.(png|jpg|gif|webp|svg|zip)$/, loader: [{ loader: 'url-loader' }] }
+            { test: /\.(png|jpg|gif|webp|zip)$/, loader: [{ loader: 'url-loader' }] },
+
+            { test: /\.svg$/, loader: [{ loader: 'svg-inline-loader' }] }
         ]
     },
 
