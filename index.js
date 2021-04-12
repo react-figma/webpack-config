@@ -1,7 +1,8 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
+
 const path = require('path');
 
 // Default Webpack configuration
@@ -18,33 +19,42 @@ const baseConfig = {
             { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
 
             // Enables including CSS by doing "import './file.css'" in your TypeScript code
-            { test: /\.css$/, loader: [{ loader: 'style-loader' }, { loader: 'css-loader' }] },
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
 
             // Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
-            { test: /\.(png|jpg|gif|webp|zip)$/, loader: [{ loader: 'url-loader' }] },
+            { test: /\.(png|jpg|gif|webp|zip)$/, type: 'asset/resource' },
 
-            { test: /\.svg$/, loader: [{ loader: 'svg-inline-loader' }] }
+            { test: /\.svg$/, type: 'asset/inline', }
         ]
     },
 
     // Webpack tries these extensions for you if you omit the extension like "import './file'"
     resolve: {
-      extensions: ['.figma.tsx', '.figma.ts', 'figma.jsx', '.figma.js', '.tsx', '.ts', '.jsx', '.js']
+        extensions: ['.figma.tsx', '.figma.ts', 'figma.jsx', '.figma.js', '.tsx', '.ts', '.jsx', '.js']
     },
 
     output: {
         filename: '[name].js',
-        path: path.resolve(process.cwd(), 'dist') // Compile into a folder called "dist"
+        path: path.resolve(process.cwd(), 'dist'),
     },
 
     plugins: [
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'development',
+            DEBUG: false,
+            'REACT_FIGMA_EXPERIMENTAL': true,
+            'REACT_FIGMA_STYLE_INHERITANCE_ENABLED': true,
+            'REACT_FIGMA_WEB_DEFAULTS_ENABLED': true,
+        }),
         new HtmlWebpackPlugin({
+            inject: true,
+            // template: path.resolve('public/index.html'),
             template: './src/ui.html',
             filename: 'ui.html',
             inlineSource: '.(js)$',
-            chunks: ['ui']
+            chunks: ['ui'],
         }),
-        new HtmlWebpackInlineSourcePlugin()
+        new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/.*/]),
     ]
 };
 
