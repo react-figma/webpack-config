@@ -1,6 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
-const path = require('path');
+const { merge } = require('webpack-merge');
 
 // Default Webpack configuration
 // @see: https://webpack.js.org/configuration/
@@ -15,12 +14,12 @@ const baseConfig = {
             { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
 
             // Enables including CSS by doing "import './file.css'" in your TypeScript code
-            { test: /\.css$/, loader: [{ loader: 'style-loader' }, { loader: 'css-loader' }] },
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
 
             // Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
-            { test: /\.(png|jpg|gif|webp|zip)$/, loader: [{ loader: 'url-loader' }] },
+            { test: /\.(png|jpg|gif|webp|zip)$/, type: 'asset/resource' },
 
-            { test: /\.svg$/, loader: [{ loader: 'svg-inline-loader' }] }
+            { test: /\.svg$/, type: 'asset/inline', }
         ]
     },
 
@@ -46,7 +45,16 @@ const baseConfig = {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
         }
-    }
+    },
+    plugins: [
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'development',
+            DEBUG: false,
+            'REACT_FIGMA_EXPERIMENTAL': true,
+            'REACT_FIGMA_STYLE_INHERITANCE_ENABLED': true,
+            'REACT_FIGMA_WEB_DEFAULTS_ENABLED': true,
+        }),
+    ]
 };
 
 // Options that should only be applied in development builds:
